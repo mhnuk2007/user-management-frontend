@@ -1,1 +1,8 @@
-<p>users works!</p>
+<h2>Users List</h2>
+<ul>
+  @for (user of users; track user.id){
+    <li>
+      {{user.name}}
+    </li>
+  }
+</ul>
