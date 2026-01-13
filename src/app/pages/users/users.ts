@@ -1,26 +1,20 @@
-import { UserService } from './../../services/user-service';
-import { Component, OnInit } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { UserService } from '../../services/user-service';
+import { Component, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { User } from '../../models/User';
+
 
 @Component({
   selector: 'app-users',
-  imports: [],
+  standalone: true,
+  imports: [DatePipe],
   templateUrl: './users.html',
   styleUrl: './users.css',
 })
-export class Users implements OnInit {
-  users: any[]=[];
+export class Users {
+  private readonly userService = inject(UserService);
 
+  readonly users = toSignal<User[]>(this.userService.getUsers());
 
-  constructor(private userService: UserService) {}
-
-  ngOnInit(): void {
-    this.loadUsers();
   }
-
-  loadUsers(): void {
-    this.userService.getUsers().subscribe((data:any) => {
-      this.users = data
-
-    });
-  }
-}
